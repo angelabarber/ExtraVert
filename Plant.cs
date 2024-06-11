@@ -8,4 +8,6 @@ public class Plant
     public string ZIP { get; set; }
 
     public bool Sold { get; set; }
+
+    public DateTime AvailableUnit { get; set; }
 }

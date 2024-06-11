@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 
+using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 
 List <Plant> plants = new List<Plant>()
@@ -59,6 +60,8 @@ List <Plant> plants = new List<Plant>()
 
 Console.WriteLine("Here are some plants SUCKA!");
 
+    Random random = new Random();
+
 void ListPlants()
 {
 for(int i = 0; i <plants.Count; i++)
@@ -86,6 +89,8 @@ void AddPlant()
     Console.WriteLine("Enter the zip code");
     string zip = Console.ReadLine();
 
+    // DateTime date = new DateTime();
+
     Plant PlantToAdd = new Plant()
     {
         Species = name,
@@ -96,6 +101,8 @@ void AddPlant()
         Sold = false
 
     };
+
+
 
     Console.WriteLine(@"Adding plant to database...");
 
@@ -138,10 +145,45 @@ void DeletePlant()
 
 }
 
+int getRandomInteger(int len)
+{
+    return random.Next(len);
+}
+
+void ListRandomPlant()
+{
+    int length = plants.Count;
+    int randomInteger = getRandomInteger(length);
+
+    while(plants[randomInteger].Sold != false)
+    {
+        randomInteger = getRandomInteger(length);
+    }
+ Console.WriteLine($"The {plants[randomInteger].Species} resides in {plants[randomInteger].City}, has a {plants[randomInteger].LightNeeds} on the light scale and costs {plants[randomInteger].AskingPrice}");
+}
+
+void SearchPlants()
+{
+    Console.WriteLine(@"
+    Enter the maximum light requirement for your plant
+    ");
+    
+    int choice = int.Parse(Console.ReadLine());
+
+    foreach(Plant plant in plants)
+    {
+        if (plant.LightNeeds <= choice)
+        {
+            Console.WriteLine($"{plant.Species}");
+        }
+    }
+
+}
+
 
 string choice = "";
 
-while (choice != "e")
+while (choice != "g")
 {
       Console.WriteLine(@"
   Please choose an option:
@@ -149,7 +191,9 @@ while (choice != "e")
   b. Post a plant to be adopted
   c. Adopt a Plant
   d. Delist a plant
-  e. Exit
+  e. See Random Plant of the Day
+  f. Search Plants
+  g. Exit 
   ") ;
 
 choice = Console.ReadLine();
@@ -169,7 +213,12 @@ choice = Console.ReadLine();
         DeletePlant();
         break;
     case "e" :
-
+        ListRandomPlant();
+        break;
+     case "f" :
+        SearchPlants();
+        break;
+    case "g" :
         Console.Clear();
         Console.WriteLine("Oy, fek off");
         break;
