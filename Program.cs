@@ -1,6 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 
+using System.Security.Cryptography.X509Certificates;
+
 List <Plant> plants = new List<Plant>()
 {
     new Plant()
@@ -104,6 +106,39 @@ void AddPlant()
 
 }
 
+void AdoptPlant()
+{
+    for(int i = 0; i < plants.Count; i++)
+    {
+        if(!plants[i].Sold)
+        {
+            Console.WriteLine($"{i}. {plants[i].Species}");
+        }
+    }
+    Console.WriteLine(@"
+    Please choose a plant to adopt.");
+    int choice = int.Parse(Console.ReadLine());
+    plants[choice].Sold = true;
+
+    Console.WriteLine($"Congratulations! You have adopted a {plants[choice].Species}. Carry on...");
+
+}
+
+void DeletePlant()
+{
+    ListPlants();
+
+    Console.WriteLine("Which plant do you want to delete?");
+
+    int choice = int.Parse(Console.ReadLine());
+
+    plants.RemoveAt(choice -1);
+
+    Console.WriteLine("Delete successful");
+
+}
+
+
 string choice = "";
 
 while (choice != "e")
@@ -128,13 +163,11 @@ choice = Console.ReadLine();
         AddPlant();
         break;
     case "c" :
-        throw new NotImplementedException();
-        // Console.WriteLine("Adopt a plant");
-        // break;
+        AdoptPlant();
+        break;
     case "d" :
-        throw new NotImplementedException();
-        // Console.WriteLine("Delist a plant");
-        // break;
+        DeletePlant();
+        break;
     case "e" :
 
         Console.Clear();
