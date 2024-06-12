@@ -9,5 +9,5 @@ public class Plant
 
     public bool Sold { get; set; }
 
-    public DateTime AvailableUnit { get; set; }
+    public DateTime AvailableUntil { get; set; }
 }

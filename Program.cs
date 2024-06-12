@@ -13,7 +13,8 @@ List <Plant> plants = new List<Plant>()
         AskingPrice = 5.00M,
         City = "Nashville",
         ZIP = "37212",
-        Sold = false
+        Sold = false,
+        AvailableUntil = new DateTime(2024, 7, 23)
 
     },
     new Plant()
@@ -23,7 +24,8 @@ List <Plant> plants = new List<Plant>()
         AskingPrice = 10.00M,
         City = "Portland",
         ZIP = "97205",
-        Sold = true
+        Sold = true,
+        AvailableUntil = new DateTime(2024, 5, 23)
     },
 
     new Plant()
@@ -33,7 +35,8 @@ List <Plant> plants = new List<Plant>()
         AskingPrice = 15.00M,
         City = "Phoenix",
         ZIP = "85001",
-        Sold = false
+        Sold = false,
+        AvailableUntil = new DateTime(2024, 8, 23)
     },
 
     new Plant()
@@ -43,7 +46,8 @@ List <Plant> plants = new List<Plant>()
         AskingPrice = 25.00M,
         City = "Miami",
         ZIP = "33101",
-        Sold = false
+        Sold = false,
+        AvailableUntil = new DateTime(2024, 6, 26)
     },
 
     new Plant()
@@ -53,7 +57,8 @@ List <Plant> plants = new List<Plant>()
         AskingPrice = 8.00M,
         City = "San Francisco",
         ZIP = "94103",
-        Sold = true
+        Sold = true,
+        AvailableUntil = new DateTime(2024, 3, 23)
     }
 
 };
@@ -89,7 +94,26 @@ void AddPlant()
     Console.WriteLine("Enter the zip code");
     string zip = Console.ReadLine();
 
-    // DateTime date = new DateTime();
+    DateTime date = new DateTime();
+
+bool validInput = false;
+
+    while(!validInput)
+    {
+        Console.WriteLine(@"
+        Enter a date your plant will be available until in the following format MM/DD/YYYY");
+        try
+        {
+            date = DateTime.Parse(Console.ReadLine());
+            validInput= true;
+        }
+        catch(FormatException ex)
+        {
+            Console.WriteLine(ex);
+            Console.WriteLine(@"
+            Please enter a date in the following format MM/DD/YYYY");
+        }
+    }
 
     Plant PlantToAdd = new Plant()
     {
@@ -117,7 +141,7 @@ void AdoptPlant()
 {
     for(int i = 0; i < plants.Count; i++)
     {
-        if(!plants[i].Sold)
+        if(!plants[i].Sold && plants[i].AvailableUntil > DateTime.Now)
         {
             Console.WriteLine($"{i}. {plants[i].Species}");
         }
