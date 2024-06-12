@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 
+using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 
@@ -204,10 +205,106 @@ void SearchPlants()
 
 }
 
+string getLowestPriced()
+{
+    Plant lowestPriced = null;
+    decimal lowestPrice = 1000.00M;
+
+    foreach (Plant plant in plants)
+    {
+        if (plant.AskingPrice < lowestPrice)
+        {
+            lowestPrice = plant.AskingPrice;
+            lowestPriced = plant;
+        }
+    }
+
+    return lowestPriced.Species;
+
+}
+
+int getTotalNumberPlants()
+{
+    int counter = 0;
+
+    foreach (Plant plant in plants)
+    {
+        if (!plant.Sold && plant.AvailableUntil > DateTime.Now)
+        {
+            counter++;
+        }
+    }
+
+    return counter;
+}
+
+string getHighestLightNeedPlant()
+{
+    Plant highestLightNeed = null;
+    int lightNeed = 0;
+
+    foreach (Plant plant in plants)
+    {
+        if(plant.LightNeeds > lightNeed)
+        {
+        highestLightNeed = plant;
+        lightNeed = plant.LightNeeds;
+
+        }
+    }
+    return highestLightNeed.Species;
+}
+
+int getAverageLightNeed()
+{
+    int counter = 0;
+
+    foreach (Plant plant in plants)
+    {
+        counter += plant.LightNeeds;
+    }
+    int average = counter / plants.Count;
+
+    return average;
+}
+
+double getPercentageAdopted()
+{
+    int numberAdopted = 0;
+
+    foreach(Plant plant in plants)
+    {
+        if(plant.Sold)
+        {
+            numberAdopted++;
+        }
+    }
+    double percentage = ((double) numberAdopted / (double)plants.Count) * 100;
+
+    return percentage;
+}
+
+void ViewStatistics()
+{
+    string lowestPriced = getLowestPriced();
+    int totalPlants = getTotalNumberPlants();
+    string highestLightNeeds = getHighestLightNeedPlant();
+    int averageLightNeeds = getAverageLightNeed();
+    double percentageAdopted = getPercentageAdopted();
+
+    Console.WriteLine(@$"Here are some plant statistics
+    1. {lowestPriced} is the lowest priced plant.
+    2. There are a total of {totalPlants} plants listed for adoption
+    3. {highestLightNeeds} is the plant with the highest light need
+    4. The average light need is {averageLightNeeds}
+    5.{percentageAdopted}% of plants are adopted 
+    ");
+}
+
 
 string choice = "";
 
-while (choice != "g")
+while (choice != "h")
 {
       Console.WriteLine(@"
   Please choose an option:
@@ -217,7 +314,8 @@ while (choice != "g")
   d. Delist a plant
   e. See Random Plant of the Day
   f. Search Plants
-  g. Exit 
+  g. View Statistics
+  h. Exit
   ") ;
 
 choice = Console.ReadLine();
@@ -243,6 +341,9 @@ choice = Console.ReadLine();
         SearchPlants();
         break;
     case "g" :
+        ViewStatistics();
+        break;
+    case "h" :
         Console.Clear();
         Console.WriteLine("Oy, fek off");
         break;
